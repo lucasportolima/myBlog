@@ -1,30 +1,27 @@
-'use strict'
+var path = require("path");
 
-const path = require('path');
-const webpack = require('webpack');
+var DIST_DIR = path.resolve(__dirname, "dist");
+var SRC_DIR = path.resolve(__dirname, "src");
 
-module.exports = {
-  devtool: 'source-map',
-  entry: [
-    'react-hot-loader/patch',
-    'webpack-dev-server/client?http://localhost:3000',
-    'webpack/hot/only-dev-server',
-    path.join(__dirname, 'src', 'index')
-  ],
-  output: {
-    path: path.join(__dirname, 'dist'),
-    filename: 'bundle.js',
-    publicPath: '/dist/'
-  },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin()
-  ],
-  module: {
-    loaders: [{
-      test: /\.js$/,
-      exclude: /node_modules/,
-      include: /src/,
-      loader: 'babel'
-    }]
-  }
-}
+var config = {
+    entry: SRC_DIR + "/app/index.js",
+    output: {
+        path: DIST_DIR + "/app",
+        filename: "bundle.js",
+        publicPath: "/app/"
+    },
+    module: {
+        loaders: [
+            {
+                test: /\.js?/,
+                include: SRC_DIR,
+                loader: "babel-loader",
+                query: {
+                    presets: ["react", "es2015", "stage-2"]
+                }
+            }
+        ]
+    }
+};
+
+module.exports = config;
